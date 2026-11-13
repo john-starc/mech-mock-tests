@@ -1,120 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MechPrep — Mechanical Engineering Mock Tests</title>
-  <style>
-    :root { --primary: #1d4ed8; --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --success: #16a34a; --danger: #dc2626; }
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-    body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.5; }
-    header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-    header h1 { margin: 0; font-size: 1.2rem; color: var(--primary); }
-    .container { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 1rem; }
-    .subject-card { border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem; cursor: pointer; background: #fff; }
-    .subject-card:hover { border-color: var(--primary); }
-    .subject-card h3 { margin: 0 0 0.4rem 0; font-size: 1.05rem; }
-    .subject-card p { margin: 0; font-size: 0.85rem; color: var(--muted); }
-    .btn { background: var(--primary); color: #fff; border: none; padding: 0.6rem 1.1rem; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
-    .btn:disabled { opacity: 0.5; }
-    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .hidden { display: none; }
-    .test-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1.25rem; }
-    .timer { font-weight: 700; color: var(--danger); background: #fef2f2; padding: 0.3rem 0.7rem; border-radius: 6px; border: 1px solid #fecaca; }
-    .option { display: block; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.65rem; cursor: pointer; }
-    .option.selected { border-color: var(--primary); background: #eff6ff; font-weight: 600; }
-    .nav-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-    .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-top: 0.75rem; }
-    .palette-btn { padding: 0.45rem 0; border: 1px solid var(--border); border-radius: 6px; background: #fff; font-weight: 600; }
-    .palette-btn.active { border: 2px solid var(--primary); }
-    .palette-btn.answered { background: var(--success); color: #fff; border-color: var(--success); }
-    .stats { display: flex; gap: 0.75rem; margin: 1.25rem 0; flex-wrap: wrap; }
-    .stat-box { flex: 1; min-width: 120px; padding: 0.85rem; border-radius: 8px; background: #f1f5f9; text-align: center; }
-    .stat-box strong { display: block; font-size: 1.35rem; color: var(--primary); }
-    .review-item { border-top: 1px solid var(--border); padding: 1rem 0; }
-    .badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
-    .badge-correct { background: #dcfce7; color: var(--success); }
-    .badge-wrong { background: #fee2e2; color: var(--danger); }
-    .badge-skip { background: #f1f5f9; color: var(--muted); }
-    .explanation { background: #f8fafc; border-left: 3px solid var(--primary); padding: 0.65rem 0.9rem; margin-top: 0.6rem; font-size: 0.88rem; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mechanical engineering mock tests covering core subjects and topic-wise practice.">
+<title>MechPrep | Mechanical Engineering Mock Tests</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d30;--panel2:#18263d;--text:#edf3ff;--muted:#a9b8cf;--accent:#57c7a5;--blue:#72a7ff;--line:#293a55;--danger:#ff7e87}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{padding:28px max(20px,calc((100% - 1150px)/2));background:linear-gradient(120deg,#142b45,#183e50);border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:clamp(1.8rem,4vw,2.6rem)}header p{margin:8px 0 0;color:#d0dfef}.wrap{max-width:1150px;margin:26px auto;padding:0 18px}
+.grid{display:grid;grid-template-columns:310px 1fr;gap:20px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 10px 30px #0002}
+h2,h3{margin-top:0}.muted{color:var(--muted)}label{display:block;font-weight:650;margin:14px 0 6px}
+input,select,button{font:inherit}input,select{width:100%;padding:11px 12px;border-radius:9px;border:1px solid var(--line);background:#0d1727;color:var(--text)}
+button{border:0;border-radius:9px;padding:11px 16px;background:var(--accent);color:#082018;font-weight:750;cursor:pointer}
+button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}button:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.subject-list{display:grid;gap:8px;margin-top:14px;max-height:580px;overflow:auto}
+.subject-btn{width:100%;text-align:left;background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:10px 12px;font-weight:600}.subject-btn.active{border-color:var(--accent);background:#173b3a}
+.topic-box{margin-top:16px;padding:14px;background:#0d1727;border:1px solid var(--line);border-radius:10px}.topic-box ul{padding-left:20px;margin-bottom:0;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}.stat{background:var(--panel2);padding:12px;border-radius:10px}.stat strong{display:block;font-size:1.35rem}
+#quizArea{display:none}.topline{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);margin-bottom:16px}
+.question{font-size:1.16rem;font-weight:700;margin:12px 0 18px}.options{display:grid;gap:10px}.option{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:10px;background:#0d1727;cursor:pointer}.option input{width:auto;margin-top:5px}.option.correct{border-color:var(--accent);background:#12332e}.option.wrong{border-color:var(--danger);background:#3b2029}
+#feedback{margin-top:14px;padding:12px;border-radius:9px;background:var(--panel2);display:none}.progress{height:8px;background:#263750;border-radius:20px;overflow:hidden;margin:10px 0 18px}.progress span{display:block;height:100%;background:var(--accent);width:0}
+.result{text-align:center;padding:24px}.result .score{font-size:2.6rem;font-weight:850;color:var(--accent)}
+.small{font-size:.9rem}.notice{padding:12px;border-left:3px solid var(--blue);background:#14243a;color:var(--muted);border-radius:6px;margin-top:16px}
+footer{text-align:center;color:var(--muted);padding:28px 15px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.subject-list{max-height:260px}.stats{grid-template-columns:1fr 1fr 1fr}}
+</style>
 </head>
 <body>
-<header>
-  <h1>MechPrep Mock Tests</h1>
-  <span style="font-size: 0.8rem; color: var(--muted);">GATE | ESE | SSC JE</span>
-</header>
-<div class="container">
-  <div id="home-screen" class="card">
-    <h2 style="margin-top:0;">Select a Mechanical Engineering Subject</h2>
-    <p style="color: var(--muted); margin-top: -0.4rem;">Marking Scheme: <strong>+2 Marks</strong> correct, <strong>-0.66 Marks</strong> wrong.</p>
-    <div class="grid" id="subject-list"></div>
-  </div>
-  <div id="test-screen" class="hidden">
-    <div class="card">
-      <div class="test-header">
-        <div>
-          <strong id="test-title" style="font-size: 1.1rem;">Subject</strong>
-          <div style="font-size: 0.82rem; color: var(--muted);" id="q-counter">Question 1 of 5</div>
-        </div>
-        <div class="timer" id="timer">10:00</div>
-      </div>
-      <div id="question-text" style="font-size: 1.02rem; font-weight: 600; margin-bottom: 1.1rem;"></div>
-      <div id="options-container"></div>
-      <div class="nav-row">
-        <div>
-          <button class="btn btn-outline" id="prev-btn" onclick="prevQuestion()">Prev</button>
-          <button class="btn btn-outline" onclick="clearResponse()">Clear</button>
-        </div>
-        <div>
-          <button class="btn" id="next-btn" onclick="nextQuestion()">Save & Next</button>
-          <button class="btn" style="background: var(--success);" onclick="confirmSubmit()">Submit</button>
-        </div>
-      </div>
-    </div>
-    <div class="card" style="margin-top: 1rem;">
-      <strong>Question Palette</strong>
-      <div class="palette-grid" id="palette-container"></div>
-    </div>
-  </div>
-  <div id="result-screen" class="card hidden">
-    <h2 style="margin-top:0;">Test Summary & Solutions</h2>
-    <div class="stats" id="stats-container"></div>
-    <button class="btn" onclick="location.reload()">Take Another Test</button>
-    <div id="review-container" style="margin-top: 1.25rem;"></div>
-  </div>
+<header><h1>MechPrep</h1><p>Mechanical Engineering · Topic-wise practice · Timed mock tests</p></header>
+<main class="wrap">
+<div class="grid">
+<aside class="card">
+<h2>Test setup</h2>
+<p class="muted small">Choose a subject, topic scope and test length.</p>
+<label for="subjectSearch">Find a subject</label><input id="subjectSearch" type="search" placeholder="Search subjects…">
+<div id="subjectList" class="subject-list"></div>
+<div id="topicBox" class="topic-box"><strong>Topics in selected subject</strong><ul id="topicList"></ul></div>
+<label for="topicSelect">Topic filter</label><select id="topicSelect"><option value="all">All topics</option></select>
+<label for="questionCount">Number of questions</label><select id="questionCount"><option>5</option><option selected>10</option><option>15</option><option>20</option></select>
+<label for="duration">Time limit</label><select id="duration"><option value="5">5 minutes</option><option value="10" selected>10 minutes</option><option value="20">20 minutes</option><option value="30">30 minutes</option></select>
+<div class="actions"><button id="startBtn">Start mock test</button></div>
+<div class="notice small">Question bank is a starter set for demonstration. Review answers against your prescribed textbook, syllabus and exam pattern before relying on them for assessment.</div>
+</aside>
+<section class="card">
+<div id="intro">
+<h2>Mechanical Engineering Mock Tests</h2>
+<p class="muted">Select a subject on the left to view its topic coverage, then start a practice test. The test supports shuffled questions, a countdown, instant explanations and a final score.</p>
+<div class="stats">
+<div class="stat"><strong id="subjectTotal">0</strong><span class="muted small">Core subjects</span></div>
+<div class="stat"><strong id="topicTotal">0</strong><span class="muted small">Listed topics</span></div>
+<div class="stat"><strong id="questionTotal">0</strong><span class="muted small">Sample questions</span></div>
 </div>
+<h3>Subjects covered</h3><p class="muted" id="subjectSummary"></p>
+</div>
+<div id="quizArea">
+<div class="topline"><span id="quizLabel"></span><span>Time left: <strong id="timer">10:00</strong></span></div>
+<div class="progress"><span id="progressBar"></span></div>
+<div class="topline"><span id="questionNumber"></span><span id="answeredCount"></span></div>
+<div id="questionText" class="question"></div>
+<div id="options" class="options"></div>
+<div id="feedback"></div>
+<div class="actions"><button class="secondary" id="prevBtn">Previous</button><button id="nextBtn">Next</button><button class="secondary" id="submitBtn">Submit test</button></div>
+</div>
+<div id="resultArea" style="display:none"></div>
+</section>
+</div>
+</main>
+<footer>MechPrep · A client-side practice demo. No account or data upload required.</footer>
 <script>
-const questionBank = {
-  "Thermodynamics": {
-    durationMinutes: 10,
-    description: "Laws of Thermodynamics, Entropy, Pure Substances & Cycles",
-    questions: [
-      { q: "For a reversible adiabatic process, the change in entropy of the system is:", options: ["Always positive", "Always negative", "Zero", "Dependent on mass"], answer: 2, explanation: "Since dS = dQ_rev / T and dQ = 0 for a reversible adiabatic process, dS = 0 (isentropic)." },
-      { q: "Which of the following is an intensive property of a thermodynamic system?", options: ["Volume", "Internal Energy", "Enthalpy", "Specific Entropy"], answer: 3, explanation: "Specific properties (per unit mass) do not depend on system mass, making Specific Entropy intensive." },
-      { q: "The efficiency of a Carnot engine operating between 600 K and 300 K is:", options: ["25%", "50%", "75%", "100%"], answer: 1, explanation: "Efficiency = 1 - (300 / 600) = 0.50 or 50%." },
-      { q: "At the triple point of water, the number of phases coexisting in equilibrium is:", options: ["1", "2", "3", "4"], answer: 2, explanation: "At 0.01 C and 0.6117 kPa, solid ice, liquid water, and water vapor coexist in equilibrium." },
-      { q: "During a throttling process of an ideal gas, which property remains constant?", options: ["Pressure", "Entropy", "Enthalpy", "Volume"], answer: 2, explanation: "Throttling is an isenthalpic process (h1 = h2) with zero work and negligible heat transfer." }
-    ]
-  },
-  "Fluid Mechanics": {
-    durationMinutes: 10,
-    description: "Fluid Statics, Bernoulli's Equation, Boundary Layer & Pipe Flow",
-    questions: [
-      { q: "Kinematic viscosity is defined as the ratio of:", options: ["Dynamic viscosity to density", "Density to dynamic viscosity", "Dynamic viscosity to specific weight", "Shear stress to velocity gradient"], answer: 0, explanation: "Kinematic viscosity = dynamic viscosity / density (m^2/s)." },
-      { q: "For laminar flow through a circular pipe, the Darcy friction factor (f) is:", options: ["16 / Re", "32 / Re", "64 / Re", "0.316 / Re^0.25"], answer: 2, explanation: "For fully developed laminar pipe flow (Re < 2000), friction factor f = 64 / Re." },
-      { q: "A floating body is in stable equilibrium when its metacenter (M) is:", options: ["Below center of gravity (G)", "Coinciding with G", "Above center of gravity (G)", "Below center of buoyancy (B)"], answer: 2, explanation: "When M is above G, a small tilt generates a restoring couple." },
-      { q: "Bernoulli's equation assumes the fluid flow is:", options: ["Viscous, compressible, unsteady", "Inviscid, incompressible, steady", "Viscous, incompressible, rotational", "Inviscid, compressible, unsteady"], answer: 1, explanation: "Bernoulli's equation applies along a streamline for steady, inviscid, incompressible flow." },
-      { q: "Cavitation in hydraulic machines occurs when local fluid pressure drops below:", options: ["Atmospheric pressure", "Gauge pressure", "Vapor pressure of liquid", "Critical pressure"], answer: 2, explanation: "When pressure falls below vapor pressure, vapor bubbles form and collapse." }
-    ]
-  },
-  "Strength of Materials": {
-    durationMinutes: 10,
-    description: "Stress-Strain, Bending Moment, Torsion & Columns",
-    questions: [
-      { q: "The relation between Young's modulus (E), Bulk modulus (K), and Poisson's ratio (u) is:", options: ["E = 3K(1 - 2u)", "E = 2K(1 + u)", "E = 3K(1 + 2u)", "E = 2K(1 - u)"], answer: 0, explanation: "The standard elastic constant relation is E = 3K(1 - 2u)." },
-      { q: "Point of contraflexure is the point on a beam where:", options: ["Shear force is maximum", "Bending moment is maximum", "Bending moment changes sign", "Deflection is zero"], answer: 2, explanation: "At the point of contraflexure, bending moment crosses zero and changes sign." },
-      { q: "For a solid circular shaft under pure torsion, maximum shear stress occurs at:", options: ["The neutral axis", "The outer surface", "Half the radius", "Uniformly across section"], answer: 1, explanation: "Shear stress is proportional to radius r, reaching maximum at the outer surface." },
-      
+const subjects = [
+{name:"Engineering Mechanics",topics:["Force systems and resultants","Equilibrium of particles and rigid bodies","Friction","Centroid and centre of gravity","Area and mass moment of inertia","Virtual work","Kinematics of particles","Kinetics and Newton’s laws","Impulse and momentum","Work, energy and power"]},
+{name:"Strength of Materials",topics:["Stress, strain and elastic constants","Stress-strain diagrams","Axial loading and deformation","Thermal stresses","Shear force and bending moment diagrams","Bending and shear stresses in beams","Torsion of circular shafts","Principal stresses and Mohr’s circle","Columns and buckling","Strain energy and impact loading","Deflection of beams","Thin and thick pressure vessels","Fatigue and theories of failure"]},
+{name:"Theory of Machines",topics:["Kinematic links, pairs and chains","Mechanisms and inversions","Velocity and acceleration analysis","Cams and followers","Gears and gear trains","Flywheels and governors","Balancing of rotating and reciprocating masses","Gyroscopes","Friction clutches and brakes","Belt, rope and chain drives","Vibrations of machines"]},
+{name:"Machine Design",topics:["Design process and factor of safety","Failure theories","Design for static and fatigue loading","Shafts, keys and couplings","Bolts, screws and threaded fasteners","Welded and riveted joints","Springs","Bearings and lubrication","Gears and gear design","Clutches and brakes","Pressure vessels","Design of machine components"]},
+{name:"Thermodynamics",topics:["Basic concepts, systems and properties","Zeroth law and temperature","First law for closed and open systems","Second law and entropy","Availability and exergy","Pure substances and steam tables","Ideal and real gases","Gas power cycles: Otto, Diesel and Dual","Vapour power cycles and Rankine cycle","Refrigeration and heat pumps","Psychrometrics and moist air","Thermodynamic relations"]},
+{name:"Fluid Mechanics",topics:["Fluid properties and fluid statics","Manometers and pressure measurement","Buoyancy and stability","Fluid kinematics","Continuity equation","Bernoulli equation and applications","Momentum equation","Laminar and turbulent flow","Pipe flow and losses","Boundary layers","Dimensional analysis and similitude","Flow measurement","Compressible flow basics"]},
+{name:"Fluid Machinery",topics:["Impact of jets","Hydraulic turbines and performance","Centrifugal pumps","Reciprocating pumps","Positive displacement machines","Similarity laws and specific speed","Pumps in series and parallel","Cavitation and priming","Compressors and fans","Hydraulic systems"]},
+{name:"Heat Transfer",topics:["Modes of heat transfer","One-dimensional steady conduction","Thermal resistance and composite walls","Fins and extended surfaces","Transient conduction","Convection correlations","Internal and external forced convection","Natural convection","Boiling and condensation","Heat exchangers and LMTD","Radiation heat transfer","View factors"]},
+{name:"Manufacturing Processes",topics:["Casting processes and solidification","Pattern, mould and core design","Welding, brazing and soldering","Metal forming: rolling, forging and extrusion","Drawing and sheet-metal operations","Machining and machine tools","Cutting tools, tool life and cutting forces","Jigs and fixtures","Powder metallurgy","Additive manufacturing","Non-traditional machining","Surface finishing processes"]},
+{name:"Engineering Materials",topics:["Crystal structure and defects","Phase diagrams and alloys","Iron-carbon equilibrium diagram","Heat treatment of steels","Mechanical properties and testing","Ferrous and non-ferrous materials","Polymers, ceramics and composites","Corrosion and protection","Material selection"]},
+{name:"Metrology and Quality Control",topics:["Limits, fits and tolerances","Linear and angular measurement","Comparators and gauges","Surface roughness measurement","Measurement errors and calibration","Interferometry","Statistical quality control","Control charts","Process capability","Acceptance sampling"]},
+{name:"Industrial Engineering and Operations Research",topics:["Work study and method study","Time study and work measurement","Production planning and control","Inventory control: EOQ and ABC","Forecasting","Facility location and layout","Linear programming","Transportation and assignment models","Queuing theory","PERT and CPM","Replacement and maintenance","Ergonomics and safety"]},
+{name:"Refrigeration and Air Conditioning",topics:["Reversed Carnot cycle","Vapour compression refrigeration","Vapour absorption refrigeration","Refrigerants and environmental impact","Psychrometric properties and processes","Cooling and heating loads","Air-conditioning systems","Duct design and fans","Cooling towers"]},
+{name:"Power Plant Engineering",topics:["Steam power plants","Boilers and draught","Steam condensers and cooling towers","Gas turbine power plants","Diesel and nuclear power plants","Hydroelectric power plants","Renewable energy systems","Plant economics and load curves"]},
+{name:"CAD/CAM and Automation",topics:["Engineering drawing standards","Geometric modelling","CAD transformations","CNC machine tools and programming concepts","Computer-aided process planning","Group technology","Flexible manufacturing systems","Robotics and automation","Sensors and actuators","Industry 4.0 basics"]},
+{name:"Mechatronics and Control Systems",topics:["Modelling of dynamic systems","Transfer functions and block diagrams","Time response","Stability and root-locus concepts","Frequency response","PID controllers","Sensors and transducers","Pneumatic and hydraulic control","Microprocessors and PLC basics"]}
+];
+const questions = [
+{subject:"Engineering Mechanics",topic:"Equilibrium of particles and rigid bodies",q:"For a body in coplanar equilibrium, which set of equations must be satisfied?",o:["ΣFx = 0, ΣFy = 0 and ΣM = 0","ΣFx = 1 and ΣFy = 1","Only ΣM = 0","Only ΣFx = 0"],a:0,e:"A coplanar rigid body has two independent force-balance equations and one moment-balance equation."},
+{subject:"Engineering Mechanics",topic:"Friction",q:"The limiting frictional force is equal to:",o:["μN","N/μ","μ/N","N + μ"],a:0,e:"At impending motion, limiting friction F = μN, where μ is the coefficient of friction and N is normal reaction."},
+{subject:"Strength of Materials",topic:"Stress, strain and elastic constants",q:"Within the linear elastic range, Young’s modulus is the ratio of:",o:["Longitudinal stress to longitudinal strain","Shear stress to shear strain","Volumetric strain to pressure","Lateral strain to longitudinal strain"],a:0,e:"Young’s modulus E = normal stress / corresponding longitudinal strain in the linear elastic range."},
+{subject:"Strength of Materials",topic:"Torsion of circular shafts",q:"For a solid circular shaft under elastic torsion, the maximum shear stress occurs at the:",o:["Centre","Outer surface","Mid-radius only","Same value everywhere"],a:1,e:"Shear stress varies linearly with radius and reaches its maximum at the outer surface."},
+{subject:"Theory of Machines",topic:"Gears and gear trains",q:"For two externally meshing gears, the directions of rotation are:",o:["The same","Opposite","Always perpendicular","Unrelated"],a:1,e:"Two externally meshing gears rotate in opposite directions at their contact point."},
+{subject:"Machine Design",topic:"Shafts, keys and couplings",q:"A primary function of a key fitted between a shaft and hub is to:",o:["Transmit torque","Reduce shaft diameter","Act as a bearing","Prevent all axial movement in every design"],a:0,e:"A key provides a positive connection to transmit torque between a shaft and a mounted hub."},
+{subject:"Thermodynamics",topic:"First law for closed and open systems",q:"For a closed system, the first law is commonly written as:",o:["Q − W = ΔU","Q + W = 0 always","Q = ΔS","W = ΔP"],a:0,e:"With heat added positive and work done by the system positive, Q − W = change in total energy; for negligible kinetic and potential changes, this is ΔU."},
+{subject:"Thermodynamics",topic:"Gas power cycles: Otto, Diesel and Dual",q:"The ideal Otto cycle adds heat at:",o:["Constant pressure","Constant volume","Constant temperature","Constant entropy"],a:1,e:"In the air-standard Otto cycle, heat addition is modelled as a constant-volume process."},
+{subject:"Fluid Mechanics",topic:"Bernoulli equation and applications",q:"The classical Bernoulli equation applies along a streamline to steady, incompressible, inviscid flow when:",o:["No shaft work or significant heat transfer is present","Flow is always turbulent","Density changes greatly","Viscous losses dominate"],a:0,e:"The standard form assumes steady, incompressible, inviscid flow with no shaft work or significant heat transfer between points."},
+{subject:"Fluid Mechanics",topic:"Reynolds number",q:"Reynolds number represents the ratio of:",o:["Inertial to viscous forces","Pressure to gravity forces","Elastic to surface forces","Thermal to inertial forces"],a:0,e:"Re = ρVD/μ for pipe flow; it compares inertial and viscous effects."},
+{subject:"Fluid Machinery",topic:"Centrifugal pumps",q:"A centrifugal pump converts mechanical energy supplied to the impeller primarily into:",o:["Hydraulic energy of the fluid","Chemical energy","Electrical energy","Nuclear energy"],a:0,e:"The rotating impeller transfers energy to the liquid, increasing its total head."},
+{subject:"Heat Transfer",topic:"One-dimensional steady conduction",q:"Fourier’s law for one-dimensional conduction is:",o:["q = −kA(dT/dx)","q = hAΔT","q = σεAT⁴","q = mCpΔT"],a:0,e:"Fourier’s law states that conduction heat-transfer rate is proportional to the negative temperature gradient."},
+{subject:"Heat Transfer",topic:"Heat exchangers and LMTD",q:"LMTD in a heat exchanger is used as the effective mean temperature difference for:",o:["Calculating heat-transfer rate","Finding fluid viscosity","Calculating pump speed","Measuring surface roughness"],a:0,e:"For a specified heat exchanger arrangement, Q = UA × LMTD."},
+{subject:"Manufacturing Processes",topic:"Machining and machine tools",q:"In conventional turning, the primary cutting motion is provided by:",o:["Rotation of the workpiece","Linear motion of the tool only","Rotation of the tailstock","Movement of the coolant"],a:0,e:"In a conventional lathe, the workpiece rotates to provide the main cutting speed."},
+{subject:"Manufacturing Processes",topic:"Casting processes and solidification",q:"A riser in casting is primarily provided to:",o:["Feed molten metal to compensate for solidification shrinkage","Increase mould hardness","Remove the pattern","Measure casting temperature"],a:0,e:"A riser acts as a reservoir and supplies liquid metal as the casting solidifies and shrinks."},
+{subject:"Engineering Materials",topic:"Heat treatment of steels",q:"The main purpose of annealing steel is generally to:",o:["Soften it and improve ductility","Maximise brittleness","Create only a surface coating","Increase density"],a:0,e:"Annealing commonly softens steel, relieves internal stresses and improves ductility and machinability."},
+{subject:"Metrology and Quality Control",topic:"Limits, fits and tolerances",q:"A clearance fit means that:",o:["The hole is always larger than the shaft within specified limits","The shaft is always larger than the hole","Interference is guaranteed","No tolerance is specified"],a:0,e:"In a clearance fit, the minimum hole size exceeds the maximum shaft size."},
+{subject:"Industrial Engineering and Operations Research",topic:"Inventory control: EOQ and ABC",q:"The basic EOQ model balances ordering cost against:",o:["Annual holding cost","Direct labour cost","Depreciation only","Inspection time"],a:0,e:"The basic Economic Order Quantity minimises the sum of annual ordering and holding costs under its assumptions."},
+{subject:"Refrigeration and Air Conditioning",topic:"Vapour compression refrigeration",q:"The component that raises refrigerant vapour pressure in a vapour-compression system is the:",o:["Compressor","Condenser","Expansion valve","Evaporator"],a:0,e:"The compressor draws low-pressure vapour from the evaporator and delivers high-pressure vapour to the condenser."},
+{subject:"Power Plant Engineering",topic:"Steam power plants",q:"In a simple Rankine cycle, the pump raises the pressure of:",o:["Liquid water leaving the condenser","Steam leaving the turbine","Flue gas","Cooling air"],a:0,e:"The feed pump pressurises condensate before it enters the boiler."},
+{subject:"CAD/CAM and Automation",topic:"CNC machine tools and programming concepts",q:"In CNC programming, a G-code generally specifies:",o:["A preparatory or motion function","The operator’s payroll","Material chemical composition","Tool purchase price"],a:0,e:"G-codes commonly define preparatory functions such as positioning and interpolation; exact meanings depend on the controller."},
+{subject:"Mechatronics and Control Systems",topic:"Transfer functions and block diagrams",q:"For a linear time-invariant system with zero initial conditions, the transfer function is the ratio of:",o:["Laplace transform of output to input","Input to output in the time domain only","Energy to power","Displacement to mass"],a:0,e:"The transfer function is Y(s)/X(s) under zero initial conditions."}
+];
+let selectedSubject=subjects[0].name, pool=[], current=0, answers={}, seconds=600, timerId=null, submitted=false;
+const $=id=>document.getElementById(id);
+function renderSubjects(filter=""){
+ const list=$("subjectList");list.innerHTML="";
+ subjects.filter(s=>s.name.toLowerCase().includes(filter.toLowerCas
