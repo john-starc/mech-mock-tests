@@ -1,62 +1,223 @@
-$("q-text").textContent=q.q;
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MechPrep Mock Tests | Mechanical Engineering</title>
+<style>
+:root{--blue:#2563eb;--bg:#f3f7fb;--ink:#142033;--muted:#64748b;--line:#dce5ef;--green:#15803d;--red:#b91c1c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-size:1.2rem;font-weight:800;color:var(--blue)}.tagline,.muted{color:var(--muted);font-size:.92rem}
+main{max-width:1000px;margin:22px auto;padding:0 14px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px}
+h2{margin:0 0 8px;font-size:1.4rem;line-height:1.25}
+.notice{background:#eff6ff;border-left:4px solid var(--blue);padding:12px 14px;border-radius:8px;color:#1e3a5f;margin:14px 0}
+.controls{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.controls label{font-weight:650;display:grid;gap:5px;flex:1;min-width:170px}
+input,select{font:inherit;border:1px solid #cbd5e1;border-radius:9px;padding:10px;background:#fff;color:var(--ink);width:100%}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:16px}
+.subject{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;min-height:95px}
+.subject:hover,.subject:focus{border-color:var(--blue);outline:0}.subject strong{display:block;margin-bottom:4px}.subject small{color:var(--muted)}
+.btn{font:inherit;background:var(--blue);border:1px solid var(--blue);color:#fff;border-radius:9px;padding:10px 16px;font-weight:700;cursor:pointer}
+.btn.secondary{background:#fff;color:var(--ink);border-color:#cbd5e1}.btn:disabled{opacity:.4;cursor:not-allowed}
+.hidden{display:none!important}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:12px}
+.timer{font-weight:800;color:var(--red);background:#fef2f2;padding:7px 12px;border-radius:8px}
+.progress{height:8px;background:#e2e8f0;border-radius:9px;margin:14px 0;overflow:hidden}.progress span{display:block;height:100%;background:var(--blue);width:0}
+.question{font-size:1.1rem;font-weight:700;margin:16px 0}
+.option{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:10px;margin:10px 0;cursor:pointer}
+.option.sel{border-color:var(--blue);background:#eff6ff}.option input{width:auto;margin-top:5px}
+.actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px}.actions div{display:flex;gap:8px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:16px 0}
+.stat{background:#f1f5f9;border-radius:10px;padding:12px;text-align:center}.stat b{display:block;font-size:1.4rem;color:var(--blue)}
+.review{border-top:1px solid var(--line);padding:14px 0}.good{color:var(--green);font-weight:700}.bad{color:var(--red);font-weight:700}
+footer{text-align:center;padding:22px;color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<header><div class="brand">⚙️ MechPrep Mock Tests</div><div class="tagline">GATE • ESE • SSC JE practice</div></header>
+<main>
+<section id="home" class="panel">
+<h2>Select a Mechanical Engineering Subject</h2>
+<p class="muted">Choose a subject, then a topic, or practise the whole subject.</p>
+<div class="notice"><b>Marking scheme:</b> +2 correct, −0.66 wrong, 0 unanswered. This is a practice default; check your actual exam rules.</div>
+<div class="controls">
+<label>Search subject<input id="search" type="search" placeholder="e.g. thermo, gears, material"></label>
+<label>Questions per test<select id="count"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>All available</option></select></label>
+<label>Time limit<select id="duration"><option value="5">5 minutes</option><option value="10" selected>10 minutes</option><option value="20">20 minutes</option><option value="30">30 minutes</option><option value="0">No time limit</option></select></label>
+</div>
+<div id="subjects" class="grid"></div>
+</section>
+
+<section id="topic-screen" class="panel hidden">
+<button class="btn secondary" id="back-home">← All subjects</button>
+<h2 id="chosen-subject" style="margin-top:16px"></h2>
+<p id="subject-description" class="muted"></p>
+<div class="controls"><label>Choose topic<select id="topic-filter"></select></label></div>
+<p id="available-count" class="notice"></p>
+<button class="btn" id="begin">Start mock test</button>
+</section>
+
+<section id="test" class="panel hidden">
+<div class="head"><div><b id="test-title"></b><div id="counter" class="muted"></div></div><div class="timer" id="timer">10:00</div></div>
+<div class="progress"><span id="bar"></span></div>
+<div id="q-text" class="question"></div><div id="choices"></div>
+<div class="actions">
+<div><button class="btn secondary" id="prev">Previous</button><button class="btn secondary" id="clear">Clear</button></div>
+<div><button class="btn" id="next">Save &amp; Next</button><button class="btn" id="submit">Submit</button></div>
+</div>
+</section>
+
+<section id="results" class="panel hidden">
+<h2>Test result and answer review</h2><div id="summary" class="stats"></div>
+<button class="btn" id="another">Back to subjects</button><div id="review"></div>
+</section>
+</main>
+<footer>MechPrep is an independent practice tool. Verify answers against official sources and standard textbooks.</footer>
+
+<script>
+"use strict";
+/* ---------- SUBJECTS: [name, description, [topics]] ---------- */
+const subjects=[
+["Engineering Mechanics","Statics, friction, centroids, kinematics and kinetics",["Equilibrium","Friction","Centroid and centre of gravity","Kinematics","Kinetics","Work, energy and power"]],
+["Strength of Materials","Stress, strain, bending, torsion, columns",["Stress and strain","Torsion","SFD and BMD","Bending stress","Principal stresses","Columns"]],
+["Theory of Machines","Mechanisms, gears, balancing, governors, vibrations",["Mechanisms","Gears and gear trains","Flywheels and governors","Balancing","Vibrations"]],
+["Machine Design","Design principles and machine elements",["Failure theories","Shafts and keys","Fasteners and joints","Springs","Bearings"]],
+["Thermodynamics","Laws, properties, entropy, power and refrigeration cycles",["First law","Second law and entropy","Otto, Diesel and Dual cycles","Rankine cycle","Psychrometry"]],
+["Fluid Mechanics","Fluid statics, flow equations, pipe flow, boundary layers",["Fluid statics","Bernoulli equation","Pipe flow","Boundary layers","Dimensional analysis"]],
+["Fluid Machinery","Turbines, pumps, compressors",["Hydraulic turbines","Centrifugal pumps","Specific speed","Cavitation"]],
+["Heat Transfer","Conduction, convection, radiation, heat exchangers",["Conduction","Fins","Convection","Heat exchangers","Radiation"]],
+["Manufacturing Processes","Casting, welding, forming, machining",["Casting","Welding","Rolling and forging","Machining","Non-traditional machining"]],
+["Engineering Materials","Material structure, properties, heat treatment (material science)",["Crystal structure","Iron-carbon diagram","Heat treatment","Mechanical testing","Corrosion"]],
+["Metrology and Quality Control","Measurement, tolerances, gauges, quality",["Limits, fits and tolerances","Gauges and comparators","Surface finish","Control charts"]],
+["Industrial Engineering and Operations Research","Work study, inventory, optimisation",["Work study","Inventory and EOQ","Forecasting","Linear programming","PERT and CPM"]],
+["Refrigeration and Air Conditioning","Cycles, refrigerants, air conditioning",["Vapour compression","Vapour absorption","Refrigerants","Psychrometry"]],
+["Power Plant Engineering","Thermal, gas, hydro, nuclear, renewable plants",["Steam power plant","Boilers","Gas turbine plants","Nuclear plants","Renewable energy"]],
+["CAD/CAM and Automation","CAD, CNC, process planning, robotics",["Geometric modelling","CNC concepts","Group technology","Robotics"]],
+["Mechatronics and Control Systems","Control theory, sensors, actuators, PLCs",["Transfer functions","Stability","PID controllers","Sensors and transducers","PLC basics"]]
+].map(([name,description,topics])=>({name,description,topics}));
+
+/* ---------- QUESTION BANK ----------
+   Add questions in this format:
+   ["Subject name","Topic name","Question text",["A","B","C","D"],correctIndex(0-3),"Explanation"]
+   Subject must match a name above exactly. */
+const bank=[
+["Engineering Mechanics","Equilibrium","For a coplanar rigid body in static equilibrium, which conditions apply?",["ΣFx = 0, ΣFy = 0 and ΣM = 0","ΣFx = 0 only","ΣM = 0 only","ΣFx = ΣFy = 1"],0,"Coplanar equilibrium needs zero resultant force in two perpendicular directions and zero resultant moment."],
+["Engineering Mechanics","Friction","At impending motion with dry friction, the limiting friction is:",["μN","N/μ","μ + N","N − μ"],0,"Limiting friction is F = μN."],
+["Strength of Materials","Stress and strain","In the linear elastic range, Young's modulus is:",["Normal stress ÷ longitudinal strain","Shear stress ÷ shear strain","Strain ÷ stress","Load ÷ area only"],0,"E = longitudinal normal stress / longitudinal strain."],
+["Strength of Materials","Torsion","In a solid circular shaft under elastic torsion, maximum shear stress occurs at the:",["Centre","Outer surface","Half-radius","Same everywhere"],1,"Shear stress varies linearly with radius, maximum at the outer surface."],
+["Theory of Machines","Gears and gear trains","Two externally meshing spur gears rotate in:",["The same direction","Opposite directions","Perpendicular directions","No fixed relationship"],1,"External meshing reverses the direction of rotation."],
+["Machine Design","Shafts and keys","A sunk key between shaft and hub mainly transmits:",["Torque","Heat","Axial thrust only","Bending moment only"],0,"A key couples shaft and hub to transmit torque."],
+["Thermodynamics","Second law and entropy","For an internally reversible adiabatic process, entropy change is:",["Positive","Negative","Zero","Infinite"],2,"δQrev = 0, so ΔS = 0 (isentropic)."],
+["Thermodynamics","Otto, Diesel and Dual cycles","In the ideal air-standard Otto cycle, heat addition occurs at constant:",["Pressure","Volume","Temperature","Entropy"],1,"Otto cycle adds heat at constant volume."],
+["Fluid Mechanics","Bernoulli equation","Classical Bernoulli's equation assumes steady, incompressible, inviscid flow along a streamline with:",["No pump/turbine work or losses between points","Large viscous losses","Strong density variation","Unsteady flow"],0,"It excludes viscous dissipation and shaft work between the two points."],
+["Fluid Mechanics","Pipe flow","For fully developed laminar flow in a circular pipe, the Darcy friction factor is:",["16/Re","32/Re","64/Re","0.316 Re^0.25"],2,"Darcy f = 64/Re (Fanning f = 16/Re)."],
+["Fluid Machinery","Centrifugal pumps","A centrifugal pump impeller transfers energy mainly to the:",["Liquid","Foundation","Electric supply","Atmosphere"],0,"The impeller raises the total head of the liquid."],
+["Heat Transfer","Conduction","Fourier's law for 1-D conduction is:",["q = −kA(dT/dx)","q = hAΔT","q = σεAT⁴","q = mCpΔT"],0,"Heat rate is proportional to the negative temperature gradient."],
+["Manufacturing Processes","Casting","A riser in a casting is used mainly to:",["Feed molten metal to offset shrinkage","Increase mould hardness","Remove the pattern","Polish the casting"],0,"The riser supplies liquid metal as the casting solidifies and shrinks."],
+["Engineering Materials","Heat treatment","Annealing of steel is commonly done to:",["Soften it and improve ductility","Make it brittle","Add a polymer coating","Increase density"],0,"Annealing softens steel, relieves stress and improves ductility/machinability."],
+["Metrology and Quality Control","Limits, fits and tolerances","In a clearance fit, the limits ensure:",["Hole is always larger than shaft","Shaft is always larger than hole","Interference always occurs","No tolerance exists"],0,"A clearance fit always leaves positive clearance."],
+["Industrial Engineering and Operations Research","Inventory and EOQ","The basic EOQ model balances ordering cost against:",["Annual holding cost","Direct labour cost","Depreciation only","Inspection time"],0,"EOQ minimises ordering plus holding cost."],
+["Refrigeration and Air Conditioning","Vapour compression","In vapour-compression refrigeration, the compressor raises the refrigerant's:",["Pressure","Quality only","Freezing point","Specific volume at constant pressure"],0,"It compresses low-pressure vapour to condenser pressure."],
+["Power Plant Engineering","Steam power plant","In a simple Rankine cycle, the feed pump pressurises:",["Liquid water from the condenser","Turbine exhaust steam","Flue gas","Cooling air"],0,"The pump raises condensate pressure before the boiler."],
+["CAD/CAM and Automation","CNC concepts","In CNC programming, G-codes generally specify:",["Preparatory functions such as motion modes","Material cost","Operator attendance","Chemical composition"],0,"G-codes select preparatory functions (positioning, interpolation); exact codes vary by controller."],
+["Mechatronics and Control Systems","Transfer functions","For an LTI system with zero initial conditions, the transfer function is:",["Y(s)/X(s)","Input ÷ output in time domain","Energy ÷ power","Mass ÷ acceleration"],0,"Transfer function = output Laplace transform / input Laplace transform."]
+].map(([subject,topic,q,options,answer,explanation])=>({subject,topic,q,options,answer,explanation}));
+
+/* ---------- APP ---------- */
+const $=id=>document.getElementById(id);
+const show=id=>$(id).classList.remove("hidden"), hide=id=>$(id).classList.add("hidden");
+let chosen=null,qs=[],index=0,resp={},remaining=0,ticker=null,finished=false;
+
+function renderSubjects(){
+ const term=$("search").value.trim().toLowerCase(), host=$("subjects");
+ host.innerHTML="";
+ subjects.filter(s=>(s.name+" "+s.description+" "+s.topics.join(" ")).toLowerCase().includes(term)).forEach(s=>{
+  const n=bank.filter(q=>q.subject===s.name).length;
+  const b=document.createElement("button");b.className="subject";
+  const t=document.createElement("strong");t.textContent=s.name;
+  const d=document.createElement("small");d.textContent=s.topics.length+" topics · "+n+" questions";
+  b.append(t,d);b.addEventListener("click",()=>selectSubject(s.name));host.appendChild(b);
+ });
+ if(!host.children.length){const p=document.createElement("p");p.className="muted";p.textContent="No subjects match your search.";host.appendChild(p);}
+}
+function pool(){const t=$("topic-filter").value;return bank.filter(q=>q.subject===chosen.name&&(t==="__all"||q.topic===t));}
+function selectSubject(name){
+ chosen=subjects.find(s=>s.name===name);
+ $("chosen-subject").textContent=chosen.name;$("subject-description").textContent=chosen.description;
+ const sel=$("topic-filter");sel.innerHTML="";
+ const all=document.createElement("option");all.value="__all";all.textContent="All available topics";sel.appendChild(all);
+ chosen.topics.forEach(t=>{const o=document.createElement("option");o.value=t;o.textContent=t;sel.appendChild(o);});
+ updateInfo();hide("home");hide("test");hide("results");show("topic-screen");
+}
+function updateInfo(){$("available-count").textContent=pool().length+" question(s) available for this selection.";}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function startTest(){
+ const av=pool();
+ if(!av.length){alert("No questions for this topic yet. Choose 'All available topics' or another topic.");return;}
+ const want=$("count").value==="All available"?av.length:Number($("count").value);
+ qs=shuffle(av).slice(0,want);index=0;resp={};finished=false;
+ const mins=Number($("duration").value);remaining=mins*60;
+ const t=$("topic-filter").value;
+ $("test-title").textContent=chosen.name+(t==="__all"?"":" — "+t);
+ hide("topic-screen");hide("results");show("test");
+ renderQuestion();clearInterval(ticker);
+ if(mins>0){updateTimer();ticker=setInterval(()=>{remaining--;updateTimer();if(remaining<=0)submitTest(true);},1000);}
+ else $("timer").textContent="No limit";
+}
+function updateTimer(){const m=Math.floor(remaining/60),s=remaining%60;$("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");}
+function renderCounter(){$("counter").textContent="Question "+(index+1)+" of "+qs.length+" · "+Object.keys(resp).length+" answered";}
+function renderQuestion(){
+ const q=qs[index];renderCounter();
+ $("bar").style.width=((index+1)/qs.length*100)+"%";
+ $("q-text").textContent=(index+1)+". "+q.q;
  const box=$("choices");box.innerHTML="";
  q.options.forEach((opt,i)=>{
-  const label=document.createElement("label");label.className="option";
-  const input=document.createElement("input");
-  input.type="radio";input.name="choice";input.checked=responses[index]===i;
-  input.addEventListener("change",()=>{responses[index]=i;renderCounter();});
+  const label=document.createElement("label");label.className="option"+(resp[index]===i?" sel":"");
+  const input=document.createElement("input");input.type="radio";input.name="choice";input.checked=resp[index]===i;
+  input.addEventListener("change",()=>{resp[index]=i;renderQuestion();});
   const span=document.createElement("span");span.textContent=opt;
   label.append(input,span);box.appendChild(label);
  });
- $("prev").disabled=index===0;
- $("next").disabled=index===testQuestions.length-1;
-}
-function renderCounter(){
- $("counter").textContent=`Question ${index+1} of ${testQuestions.length} · ${Object.keys(responses).length} answered`;
+ $("prev").disabled=index===0;$("next").disabled=index===qs.length-1;
 }
 function submitTest(auto){
  if(finished)return;
- if(!auto&&!confirm("Submit the test?"))return;
+ if(auto!==true&&!confirm("Submit the test?"))return;
  finished=true;clearInterval(ticker);
- let correct=0,wrong=0,skipped=0;
- testQuestions.forEach((q,i)=>{
-  if(responses[i]===undefined)skipped++;
-  else if(responses[i]===q.answer)correct++;
-  else wrong++;
+ let c=0,w=0,u=0;
+ qs.forEach((q,i)=>{if(resp[i]===undefined)u++;else if(resp[i]===q.answer)c++;else w++;});
+ const score=(c*2-w*0.66).toFixed(2);
+ $("summary").innerHTML="";
+ [[score+" / "+qs.length*2,"Score"],[c,"Correct"],[w,"Wrong"],[u,"Unanswered"]].forEach(([v,l])=>{
+  const d=document.createElement("div");d.className="stat";const b=document.createElement("b");b.textContent=v;d.append(b,l);$("summary").appendChild(d);
  });
- const score=(correct*2-wrong*0.66).toFixed(2), max=testQuestions.length*2;
- $("summary").innerHTML=
-  `<div class="stat"><b>${score}/${max}</b>Score</div>`+
-  `<div class="stat"><b>${correct}</b>Correct</div>`+
-  `<div class="stat"><b>${wrong}</b>Wrong</div>`+
-  `<div class="stat"><b>${skipped}</b>Unanswered</div>`;
  const rv=$("review");rv.innerHTML="";
- testQuestions.forEach((q,i)=>{
+ qs.forEach((q,i)=>{
   const d=document.createElement("div");d.className="review";
-  const h=document.createElement("b");h.textContent=`Q${i+1}. ${q.q}`;
+  const h=document.createElement("b");h.textContent="Q"+(i+1)+". "+q.q;
   const r=document.createElement("div");
-  const got=responses[i];
-  if(got===undefined){r.className="muted";r.textContent="Not answered";}
-  else if(got===q.answer){r.className="good";r.textContent="Correct";}
-  else{r.className="bad";r.textContent="Your answer: "+q.options[got];}
-  const c=document.createElement("div");c.textContent="Correct answer: "+q.options[q.answer];
+  if(resp[i]===undefined){r.className="muted";r.textContent="Not answered";}
+  else if(resp[i]===q.answer){r.className="good";r.textContent="Correct ✓";}
+  else{r.className="bad";r.textContent="Your answer: "+q.options[resp[i]];}
+  const a=document.createElement("div");a.textContent="Correct answer: "+q.options[q.answer];
   const e=document.createElement("div");e.className="muted";e.textContent=q.explanation;
-  d.append(h,r,c,e);rv.appendChild(d);
+  d.append(h,r,a,e);rv.appendChild(d);
  });
- hide("test");show("results");
+ hide("test");show("results");window.scrollTo(0,0);
 }
-function goHome(){
- clearInterval(ticker);
- hide("topic-screen");hide("test");hide("results");show("home");
-}
+function goHome(){clearInterval(ticker);hide("topic-screen");hide("test");hide("results");show("home");renderSubjects();}
 
 $("search").addEventListener("input",renderSubjects);
 $("back-home").addEventListener("click",goHome);
-$("topic-filter").addEventListener("change",updateTopicInfo);
+$("topic-filter").addEventListener("change",updateInfo);
 $("begin").addEventListener("click",startTest);
 $("prev").addEventListener("click",()=>{if(index>0){index--;renderQuestion();}});
-$("next").addEventListener("click",()=>{if(index<testQuestions.length-1){index++;renderQuestion();}});
-$("clear").addEventListener("click",()=>{delete responses[index];renderQuestion();});
+$("next").addEventListener("click",()=>{if(index<qs.length-1){index++;renderQuestion();}});
+$("clear").addEventListener("click",()=>{delete resp[index];renderQuestion();});
 $("submit").addEventListener("click",()=>submitTest(false));
 $("another").addEventListener("click",goHome);
 renderSubjects();
+</script>
+</body>
+</html>
